@@ -7,5 +7,5 @@ import com.thathsara.notification_service.entities.Notification;
 
 @Repository
 public interface NotificationRepository extends  JpaRepository<Notification, Long> {
-    
+
 }
