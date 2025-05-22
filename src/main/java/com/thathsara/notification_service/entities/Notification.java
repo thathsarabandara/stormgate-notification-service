@@ -42,8 +42,9 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationType type;
 
-    @Enumerated(EnumType.STRING)
-    private NotificationStatus status;
+    @Column(columnDefinition = "BOOLEAN DETAULT FALSE")
+    @Builder.Default
+    private boolean isDeleted = false;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
@@ -60,9 +61,4 @@ public class Notification {
         PUSH,
     }
 
-    public enum NotificationStatus {
-        SENT,
-        PENDING,
-        FAILED,
-    }
 }

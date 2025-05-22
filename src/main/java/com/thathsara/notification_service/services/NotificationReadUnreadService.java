@@ -49,7 +49,7 @@ public class NotificationReadUnreadService {
                     .body(new NotificationReadUnreadResponse(null, "Notification id is not Found"));
             }
 
-            Optional<Notification> notificationOpt = notificationRepository.findById(notificationId);
+            Optional<Notification> notificationOpt = notificationRepository.findByIdAndNotDelated(notificationId,false);
             if (!notificationOpt.isPresent()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new NotificationReadUnreadResponse(null, "Notification is not Found"));
@@ -101,7 +101,7 @@ public class NotificationReadUnreadService {
                     .body(new NotificationReadUnreadResponse(null, "Group is not Found"));
             }
 
-            Optional<Notification> notificationOpt = notificationRepository.findById(notificationId);
+            Optional<Notification> notificationOpt = notificationRepository.findByIdAndNotDelated(notificationId,false);
             if (!notificationOpt.isPresent()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new NotificationReadUnreadResponse(null, "Notification is not Found"));

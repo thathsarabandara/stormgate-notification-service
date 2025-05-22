@@ -61,7 +61,7 @@ public class NotificationGetService {
             List<NotificationGetResponse> notificationResponses = new ArrayList<>();
 
             for (UserNotification userNotification : userNotificationsPage.getContent()) {
-                Optional<Notification> notificationOpt = notificationRepository.findById(userNotification.getNotification().getId());
+                Optional<Notification> notificationOpt = notificationRepository.findByIdAndNotDelated(userNotification.getNotification().getId(), false);
                 if (notificationOpt.isPresent()) {
                     Notification notification = notificationOpt.get();
                     NotificationGetResponse resp = new NotificationGetResponse(

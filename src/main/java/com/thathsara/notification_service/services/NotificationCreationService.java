@@ -56,8 +56,8 @@ public class NotificationCreationService {
             notification.setTitle(request.getTitle());
             notification.setMessage(request.getMessage());
             notification.setType(type);
-            notification.setStatus(Notification.NotificationStatus.PENDING);
-
+            notification.setDeleted(false);
+            
             Notification savedNotification = notificationRepository.save(notification);
             return savedNotification;
         } catch (BadRequestException e) {
