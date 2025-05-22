@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.thathsara.notification_service.dtos.AdminNotificationGetResponse;
 import com.thathsara.notification_service.dtos.AdminNotificationListGetResponse;
 import com.thathsara.notification_service.dtos.NotificationCreateRequest;
 import com.thathsara.notification_service.dtos.NotificationCreateResponse;
