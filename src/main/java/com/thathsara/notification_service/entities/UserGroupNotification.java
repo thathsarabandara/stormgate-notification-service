@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserGroup {
+public class UserGroupNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +40,14 @@ public class UserGroup {
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName="id")
     private Group group;
+
+    @Column(nullable=false, columnDefinition="BOOLEAN DEFAULT FALSE")
+    @Builder.Default
+    private Boolean isRead = false;
+
+    @OneToOne
+    @JoinColumn(name = "notifictaion_id", referencedColumnName = "id")
+    private Notification notification;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)

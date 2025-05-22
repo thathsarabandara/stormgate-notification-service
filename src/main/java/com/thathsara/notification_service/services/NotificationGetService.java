@@ -65,6 +65,7 @@ public class NotificationGetService {
                 if (notificationOpt.isPresent()) {
                     Notification notification = notificationOpt.get();
                     NotificationGetResponse resp = new NotificationGetResponse(
+                        notification.getId(),
                         notification.getTitle(),
                         notification.getMessage(),
                         userNotification.getIsRead(),
@@ -112,6 +113,7 @@ public class NotificationGetService {
                 if (notificationOpt.isPresent()) {
                     Notification notification = notificationOpt.get();
                     NotificationGetResponse resp = new NotificationGetResponse(
+                        notification.getId(),
                         notification.getTitle(),
                         notification.getMessage(),
                         false,

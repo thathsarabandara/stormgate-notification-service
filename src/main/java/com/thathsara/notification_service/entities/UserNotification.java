@@ -40,9 +40,6 @@ public class UserNotification {
     @Column(nullable=false)
     private Boolean isRead;
 
-    @Column(nullable=false)
-    private LocalDateTime sentAt;
-
     @CreationTimestamp
     @Column(nullable=false, name="created_at")
     private LocalDateTime createdAt;
