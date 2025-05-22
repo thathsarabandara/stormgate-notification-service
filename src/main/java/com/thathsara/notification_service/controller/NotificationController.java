@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thathsara.notification_service.dtos.AdminNotificationGetResponse;
+import com.thathsara.notification_service.dtos.AdminNotificationListGetResponse;
 import com.thathsara.notification_service.dtos.NotificationCreateRequest;
 import com.thathsara.notification_service.dtos.NotificationCreateResponse;
 import com.thathsara.notification_service.dtos.NotificationGetListResponse;
@@ -120,5 +122,12 @@ public class NotificationController {
         return notificationReadUnreadService.getReadUnreadUserGroupNotification(tenantid, userid, groupName, notificationid, true);
     }
 
-    
+    @GetMapping("/")
+    public ResponseEntity<AdminNotificationListGetResponse> getAll(
+        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "20") int limit
+    ) {
+        return notificationGetService.getAll(tenantid, page, limit);
+    }
 }

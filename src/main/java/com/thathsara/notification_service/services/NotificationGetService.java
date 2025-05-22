@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.thathsara.notification_service.dtos.AdminNotificationGetResponse;
+import com.thathsara.notification_service.dtos.AdminNotificationListGetResponse;
 import com.thathsara.notification_service.dtos.NotificationGetListResponse;
 import com.thathsara.notification_service.dtos.NotificationGetResponse;
 import com.thathsara.notification_service.entities.Group;
@@ -134,4 +136,51 @@ public class NotificationGetService {
         }
     }
 
+    @Transactional
+    public ResponseEntity<AdminNotificationListGetResponse> getAll(Long tenantId, int page, int limit) {
+        try {
+            if (tenantId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new AdminNotificationListGetResponse(null, "Tenant ID is required"));
+            }
+
+            Pageable pageable = PageRequest.of(page, limit);
+            Page<Notification> notifications = notificationRepository.findByTenantId(tenantId, pageable);
+
+            List<AdminNotificationGetResponse> notifiList = new java.util.ArrayList<>();
+
+            for (Notification notification : notifications.getContent()) {
+                Optional<UserNotification> userNotificationOpt = userNotificationRepository.findByNotificationAndUserId(notification, tenantId);
+                Optional<GroupNotification> groupNotificationOpt = groupNotificationRepository.findbyNotification(notification);
+
+                AdminNotificationGetResponse response = new AdminNotificationGetResponse();
+                response.setNotifiId(notification.getId());
+                response.setTitle(notification.getTitle());
+                response.setMessage(notification.getMessage());
+                response.setType(notification.getType().name());
+                response.setDeleted(notification.isDeleted());
+                response.setCratedAt(notification.getCreatedAt());
+
+                if (userNotificationOpt.isPresent()) {
+                    UserNotification userNotification = userNotificationOpt.get();
+                    response.setUserId(userNotification.getUserId());
+                    response.setUserRead(userNotification.getIsRead());
+                }
+
+                if (groupNotificationOpt.isPresent()) {
+                    GroupNotification groupNotification = groupNotificationOpt.get();
+                    Optional<Group> group = groupRepository.findById(groupNotification.getGroup().getId());
+                    response.setGroupName(group.get().getName());
+                }
+
+                notifiList.add(response);
+            }
+
+            return ResponseEntity.ok(new AdminNotificationListGetResponse(notifiList, "All notifications fetched successfully"));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new AdminNotificationListGetResponse(null, "Failed to get All Notification Data: " + e.getMessage()));
+        }
+    }
 }
