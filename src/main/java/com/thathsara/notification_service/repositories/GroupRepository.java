@@ -7,5 +7,5 @@ import com.thathsara.notification_service.entities.Group;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
-   Group findByTenantIdandName(Long tenantid, String name);
+   Group findByTenantIdAndName(Long tenantId, String name);
 }

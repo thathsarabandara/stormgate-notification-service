@@ -23,17 +23,30 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class NotificationCreationService {
+    /**
+     * Repository for managing notifications.
+     */
     @Autowired
     private NotificationRepository notificationRepository;
 
+    /**
+     * Repository for managing user notifications.
+     */
     @Autowired
     private UserNotificationRepository userNotificationRepository;
 
+    /**
+     * Repository for managing groups.
+     */
     @Autowired
     private GroupRepository groupRepository;
 
+    /**
+     * Repository for managing group notifications.
+     */
     @Autowired
     private GroupNotificationRepository groupNotificationRepository;
+
 
     @Transactional
     public Notification createNotification( Long tenantId, NotificationCreateRequest request) {
@@ -42,7 +55,7 @@ public class NotificationCreationService {
                 throw new BadRequestException("Tenant ID is required");
             }
 
-            Notification.NotificationType type;
+            final Notification.NotificationType type;
             switch (request.getType()) {
                 case "SMS" -> type = Notification.NotificationType.SMS;
                 case "EMAIL" -> type = Notification.NotificationType.EMAIL;
@@ -51,14 +64,14 @@ public class NotificationCreationService {
                 default -> throw new BadRequestException("Invalid notification type: " + request.getType());
             }
 
-            Notification notification = new Notification();
+            final Notification notification = new Notification();
             notification.setTenantid(tenantId);
             notification.setTitle(request.getTitle());
             notification.setMessage(request.getMessage());
             notification.setType(type);
-            notification.setStatus(Notification.NotificationStatus.PENDING);
-
-            Notification savedNotification = notificationRepository.save(notification);
+            notification.setDeleted(false);
+            
+            final Notification savedNotification = notificationRepository.save(notification);
             return savedNotification;
         } catch (BadRequestException e) {
             return null;
@@ -70,37 +83,43 @@ public class NotificationCreationService {
     public ResponseEntity<NotificationCreateResponse> notifyUsers(Notification notification, List<Long> userIds) {
         try {
             for (Long userId : userIds) {
-                UserNotification userNotification = new UserNotification();
+                final UserNotification userNotification = new UserNotification();
                 userNotification.setNotification(notification);
                 userNotification.setUserId(userId);
                 userNotification.setIsRead(false);
                 userNotificationRepository.save(userNotification);
             }
-            return ResponseEntity.ok(new NotificationCreateResponse(notification.getId(), "Successfully Created the User Notification"));
+            return ResponseEntity
+            .ok(new NotificationCreateResponse(notification.getId(), "Successfully Created the User Notification"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new NotificationCreateResponse(notification.getId(), "User Notification Creation Failed"));
+            return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new NotificationCreateResponse(notification.getId(), "User Notification Creation Failed"));
         }
     }
     @Transactional
     public ResponseEntity<NotificationCreateResponse> notifyGroup(Notification notification, Group group) {
         try {
-            GroupNotification groupNotification = new GroupNotification();
+            final GroupNotification groupNotification = new GroupNotification();
             groupNotification.setNotification(notification);
             groupNotification.setGroup(group);
             groupNotificationRepository.save(groupNotification);
-            return ResponseEntity.ok(new NotificationCreateResponse(notification.getId(), "Successfully Created the Group Notification"));
+            return ResponseEntity
+            .ok(new NotificationCreateResponse(notification.getId(), "Successfully Created the Group Notification"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new NotificationCreateResponse(notification.getId(), "Group Notification Creation Failed"));
+            return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new NotificationCreateResponse(notification.getId(), "Group Notification Creation Failed"));
         }
     }
 
     public Group findOrCreateGroup(String groupName, Long tenantId) {
         try {
-            Group group = groupRepository.findByTenantIdandName(tenantId, groupName.toUpperCase());
+            final Group group = groupRepository.findByTenantIdAndName(tenantId, groupName.toUpperCase());
             if (group == null) {
-                Group newGroup = new Group();
+                final Group newGroup = new Group();
                 newGroup.setName(groupName);
-                newGroup.setTenantid(tenantId);
+                newGroup.setTenantId(tenantId);
                 groupRepository.save(newGroup);
                 return newGroup;
             }
