@@ -85,9 +85,24 @@ public class Notification {
      * Enum representing different notification types.
      */
     public enum NotificationType {
+        /**
+         * Represents an email notification.
+         */
         EMAIL,
+
+        /**
+         * Represents an SMS notification.
+         */
         SMS,
+
+        /**
+         * Represents an in-application notification.
+         */
         IN_APP,
-        PUSH,
+
+        /**
+         * Represents a push notification.
+         */
+        PUSH
     }
 }

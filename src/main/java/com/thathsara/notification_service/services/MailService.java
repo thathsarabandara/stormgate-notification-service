@@ -11,6 +11,9 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
+    /**
+     * Java mail sender variable
+     */
     @Autowired
     private JavaMailSender mailsSender;
     
@@ -25,7 +28,7 @@ public class MailService {
             mailsSender.send(message);
             
         } catch (MessagingException | MailException e) {
-            throw new RuntimeException("Failed to send Email"+ e.getMessage());
+            throw new RuntimeException("Failed to send Email" + e.getMessage());
         }
     }
 

@@ -16,7 +16,11 @@ import com.thathsara.notification_service.entities.UserNotification;
 @Repository
 public interface UserNotificationRepository extends JpaRepository<UserNotification, Long> {
     @Query("SELECT n FROM UserNotification n WHERE n.userId = :userId AND n.createdAt >= :threeMonthsAgo")
-    Page<UserNotification> findAllByUserId(@Param("userId") Long userId, @Param("threeMonthsAgo") LocalDateTime threeMonthsAgo,Pageable pageable);
+    Page<UserNotification> findAllByUserId(
+        @Param("userId") Long userId, 
+        @Param("threeMonthsAgo") LocalDateTime threeMonthsAgo, 
+        Pageable pageable
+    );
 
     Optional<UserNotification> findByNotificationAndUserId(Notification notification, Long userId);
 }

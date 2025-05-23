@@ -14,8 +14,13 @@ import com.thathsara.notification_service.entities.GroupNotification;
 import com.thathsara.notification_service.entities.Notification;
 
 public interface  GroupNotificationRepository extends JpaRepository<GroupNotification, Long> {
-    @Query("SELECT n FROM GroupNotification n WHERE n.group = :group AND n.createdAt >= :threeMonthsAgo")
-    Page<GroupNotification> findAllByGroup(@Param("group") Group group, @Param("threeMonthsAgo") LocalDateTime threeMonthsAgo, Pageable pageable);
-
+    @Query("SELECT n FROM GroupNotification n "
+     + "WHERE n.group = :group "
+     + "AND n.createdAt >= :threeMonthsAgo")
+    Page<GroupNotification> findAllByGroup(
+        @Param("group") Group group, 
+        @Param("threeMonthsAgo") LocalDateTime threeMonthsAgo, 
+        Pageable pageable);
+        
     Optional<GroupNotification> findbyNotification(Notification notification);
 }
