@@ -94,7 +94,7 @@ public class NotificationController {
      * @return the response entity
      */
 
-    @GetMapping("/user/{userid}")
+    @GetMapping("/user/{userid}/notifications")
     public  ResponseEntity<NotificationGetListResponse> getUserNotifi(
         @RequestHeader(name = "Tenant-Id") final Long tenantid,
         @PathVariable final Long userid,
@@ -114,7 +114,7 @@ public class NotificationController {
      * @return the response entity
      */
 
-    @GetMapping("/user/{groupname}")
+    @GetMapping("/user/{groupname}/notifications")
     public  ResponseEntity<NotificationGetListResponse> getGroupNotifi(
         @RequestHeader(name = "Tenant-Id") final Long tenantid,
         @PathVariable final String groupName,
