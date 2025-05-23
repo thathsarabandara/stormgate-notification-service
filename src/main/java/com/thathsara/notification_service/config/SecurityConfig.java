@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * HTTP security configurations.
  */
 @Configuration
-public final class SecurityConfig {
+public class SecurityConfig {
 
     /**
      * Configures the security filter chain for the application.
