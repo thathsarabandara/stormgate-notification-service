@@ -46,6 +46,7 @@ public class NotificationController {
     /** Service for read unread notifications. */
     @Autowired
     private NotificationReadUnreadService notificationReadUnreadService;
+
     /**
      * send a new notificaiton
      * 
@@ -55,14 +56,15 @@ public class NotificationController {
      */
     @PostMapping("/")
     public ResponseEntity<NotificationCreateResponse> sendNotification(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id")  final Long tenantid,
         @ModelAttribute final NotificationCreateRequest request
     ) {
         try {
-            if(tenantid == null){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new NotificationCreateResponse(null, "Missing Tenant Id"));
+            if (tenantid == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new NotificationCreateResponse(null, "Missing Tenant Id"));
             }
-            Notification notification = notificationCreationService.createNotification(tenantid,request);
+            final Notification notification = notificationCreationService.createNotification(tenantid, request);
 
 
             if (request.getUserIds() != null && !request.getUserIds().isEmpty()) {
@@ -70,14 +72,16 @@ public class NotificationController {
             }
 
             if (request.getGroupName() != null && !request.getGroupName().isEmpty()) {
-                Group group = notificationCreationService.findOrCreateGroup(request.getGroupName(), tenantid);
+                final Group group = notificationCreationService.findOrCreateGroup(request.getGroupName(), tenantid);
                 return notificationCreationService.notifyGroup(notification, group);
             }
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(new NotificationCreateResponse(notification.getId(), "Notification sent successfully."));
+            return ResponseEntity.status(HttpStatus.CREATED)
+            .body(new NotificationCreateResponse(notification.getId(), "Notification sent successfully."));
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new NotificationCreateResponse(null, "Notification Creation Failed"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new NotificationCreateResponse(null, "Notification Creation Failed"));
         }
     }
     /**
@@ -92,10 +96,10 @@ public class NotificationController {
 
     @GetMapping("/user/{userid}")
     public  ResponseEntity<NotificationGetListResponse> getUserNotifi(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
-        @PathVariable Long userid,
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "20") int limit
+        @RequestHeader(name = "Tenant-Id") final Long tenantid,
+        @PathVariable final Long userid,
+        @RequestParam(defaultValue = "1") final int page,
+        @RequestParam(defaultValue = "20") final int limit
     ) {
         return notificationGetService.getUserNotifiations(tenantid, userid, page, limit);
     }
@@ -112,10 +116,10 @@ public class NotificationController {
 
     @GetMapping("/user/{groupname}")
     public  ResponseEntity<NotificationGetListResponse> getGroupNotifi(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
-        @PathVariable String groupName,
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "20") int limit
+        @RequestHeader(name = "Tenant-Id") final Long tenantid,
+        @PathVariable final String groupName,
+        @RequestParam(defaultValue = "1") final int page,
+        @RequestParam(defaultValue = "20") final int limit
     ) {
         return notificationGetService.getGroupNotifications(tenantid, groupName, page, limit);
     }
@@ -131,11 +135,12 @@ public class NotificationController {
 
     @PutMapping("/user/{userid}/notification/{notificationid}/read")
     public ResponseEntity<NotificationReadUnreadResponse> makeReadNotifi(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
-        @PathVariable Long notificationid,
-        @PathVariable Long userid
+        @RequestHeader(name = "Tenant-Id") final Long tenantid,
+        @PathVariable final Long notificationid,
+        @PathVariable final Long userid
     ) {
-        return notificationReadUnreadService.getReadUnreadUserNotification(tenantid, userid, notificationid, true);
+        return notificationReadUnreadService
+        .getReadUnreadUserNotification(tenantid, userid, notificationid, true);
     }
 
     /**
@@ -149,11 +154,12 @@ public class NotificationController {
 
     @PutMapping("/user/{userid}/notification/{notificationid}/unread")
     public ResponseEntity<NotificationReadUnreadResponse> makeUnReadNotifi(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
-        @PathVariable Long notificationid,
-        @PathVariable Long userid
+        @RequestHeader(name = "Tenant-Id") final Long tenantid,
+        @PathVariable final Long notificationid,
+        @PathVariable final Long userid
     ) {
-        return notificationReadUnreadService.getReadUnreadUserNotification(tenantid, userid, notificationid, false);
+        return notificationReadUnreadService
+        .getReadUnreadUserNotification(tenantid, userid, notificationid, false);
     }
 
     /**
@@ -168,12 +174,13 @@ public class NotificationController {
 
     @PutMapping("group/{groupName}/user/{userid}/notification/{notificationid}/read")
     public ResponseEntity<NotificationReadUnreadResponse> makeReadGroupNotifi(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
-        @PathVariable Long notificationid,
-        @PathVariable Long userid,
-        @PathVariable String groupName
+        @RequestHeader(name = "Tenant-Id") final Long tenantid,
+        @PathVariable final Long notificationid,
+        @PathVariable final Long userid,
+        @PathVariable final String groupName
     ) {
-        return notificationReadUnreadService.getReadUnreadUserGroupNotification(tenantid, userid, groupName, notificationid, true);
+        return notificationReadUnreadService
+        .getReadUnreadUserGroupNotification(tenantid, userid, groupName, notificationid, true);
     }
 
     /**
@@ -188,12 +195,13 @@ public class NotificationController {
 
     @PutMapping("group/{groupName}/user/{userid}/notification/{notificationid}/unread")
     public ResponseEntity<NotificationReadUnreadResponse> makeUnReadGroupNotifi(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
-        @PathVariable Long notificationid,
-        @PathVariable Long userid,
-        @PathVariable String groupName
+        @RequestHeader(name = "Tenant-Id") final Long tenantid,
+        @PathVariable final Long notificationid,
+        @PathVariable final Long userid,
+        @PathVariable final String groupName
     ) {
-        return notificationReadUnreadService.getReadUnreadUserGroupNotification(tenantid, userid, groupName, notificationid, true);
+        return notificationReadUnreadService
+        .getReadUnreadUserGroupNotification(tenantid, userid, groupName, notificationid, true);
     }
 
     /**
@@ -207,9 +215,9 @@ public class NotificationController {
 
     @GetMapping("/")
     public ResponseEntity<AdminNotificationListGetResponse> getAll(
-        @RequestHeader(name = "Tenant-Id") Long tenantid,
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "20") int limit
+        @RequestHeader(name = "Tenant-Id") final Long tenantid,
+        @RequestParam(defaultValue = "1") final int page,
+        @RequestParam(defaultValue = "20") final int limit
     ) {
         return notificationGetService.getAll(tenantid, page, limit);
     }

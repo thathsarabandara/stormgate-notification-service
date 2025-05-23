@@ -16,6 +16,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity representing a notification group.
+ */
 @Entity
 @Table(name = "groups")
 @Data
@@ -24,20 +27,35 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Group {
 
+    /**
+     * Unique identifier for the group.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    /**
+     * ID of the tenant this group belongs to.
+     */
+    @Column(nullable = false)
     private Long tenantid;
 
-    @Column(nullable=true)
+    /**
+     * Name of the group.
+     */
+    @Column(nullable = true)
     private String name;
 
+    /**
+     * Timestamp when the group was created.
+     */
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * Timestamp when the group was last updated.
+     */
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
