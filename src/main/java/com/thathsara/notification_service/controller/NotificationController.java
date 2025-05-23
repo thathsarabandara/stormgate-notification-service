@@ -1,3 +1,6 @@
+/**
+ * Contains controllers for handling notification service APIs.
+ */
 package com.thathsara.notification_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +27,36 @@ import com.thathsara.notification_service.services.NotificationCreationService;
 import com.thathsara.notification_service.services.NotificationGetService;
 import com.thathsara.notification_service.services.NotificationReadUnreadService;
 
+/**
+ * Controller class for handling notification operations.
+ */
+
 @RestController
 @RequestMapping("/api/v1/notification")
 public class NotificationController {
 
+    /** Service for creating notifications. */
     @Autowired
     private NotificationCreationService notificationCreationService;
 
+    /** Service for geting notifications. */
     @Autowired
     private NotificationGetService notificationGetService;
 
+    /** Service for read unread notifications. */
     @Autowired
     private NotificationReadUnreadService notificationReadUnreadService;
-
+    /**
+     * send a new notificaiton
+     * 
+     * @param tenantid the thenant ID
+     * @param request the notification request
+     * @return the response Entity
+     */
     @PostMapping("/")
     public ResponseEntity<NotificationCreateResponse> sendNotification(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
-        @ModelAttribute NotificationCreateRequest request
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
+        @ModelAttribute final NotificationCreateRequest request
     ) {
         try {
             if(tenantid == null){
@@ -64,18 +80,39 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new NotificationCreateResponse(null, "Notification Creation Failed"));
         }
     }
+    /**
+     * Retrieves notifications for a user.
+     *
+     * @param tenantid the tenant ID
+     * @param userid   the user ID
+     * @param page     the page number
+     * @param limit    the page size
+     * @return the response entity
+     */
+
     @GetMapping("/user/{userid}")
     public  ResponseEntity<NotificationGetListResponse> getUserNotifi(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
         @PathVariable Long userid,
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "20") int limit
     ) {
         return notificationGetService.getUserNotifiations(tenantid, userid, page, limit);
     }
+
+    /**
+     * Retrieves notifications for a group.
+     *
+     * @param tenantid  the tenant ID
+     * @param groupName the group name
+     * @param page      the page number
+     * @param limit     the page size
+     * @return the response entity
+     */
+
     @GetMapping("/user/{groupname}")
     public  ResponseEntity<NotificationGetListResponse> getGroupNotifi(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
         @PathVariable String groupName,
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "20") int limit
@@ -83,37 +120,75 @@ public class NotificationController {
         return notificationGetService.getGroupNotifications(tenantid, groupName, page, limit);
     }
 
+    /**
+     * Marks a user notification as read.
+     *
+     * @param tenantid       the tenant ID
+     * @param notificationid the notification ID
+     * @param userid         the user ID
+     * @return the response entity
+     */
+
     @PutMapping("/user/{userid}/notification/{notificationid}/read")
     public ResponseEntity<NotificationReadUnreadResponse> makeReadNotifi(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
         @PathVariable Long notificationid,
         @PathVariable Long userid
     ) {
         return notificationReadUnreadService.getReadUnreadUserNotification(tenantid, userid, notificationid, true);
     }
 
+    /**
+     * Marks a user notification as unread.
+     *
+     * @param tenantid       the tenant ID
+     * @param notificationid the notification ID
+     * @param userid         the user ID
+     * @return the response entity
+     */
+
     @PutMapping("/user/{userid}/notification/{notificationid}/unread")
     public ResponseEntity<NotificationReadUnreadResponse> makeUnReadNotifi(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
         @PathVariable Long notificationid,
         @PathVariable Long userid
     ) {
         return notificationReadUnreadService.getReadUnreadUserNotification(tenantid, userid, notificationid, false);
     }
 
+    /**
+     * Marks a group notification as read for a user.
+     *
+     * @param tenantid       the tenant ID
+     * @param notificationid the notification ID
+     * @param userid         the user ID
+     * @param groupName      the group name
+     * @return the response entity
+     */
+
     @PutMapping("group/{groupName}/user/{userid}/notification/{notificationid}/read")
     public ResponseEntity<NotificationReadUnreadResponse> makeReadGroupNotifi(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
         @PathVariable Long notificationid,
         @PathVariable Long userid,
         @PathVariable String groupName
     ) {
         return notificationReadUnreadService.getReadUnreadUserGroupNotification(tenantid, userid, groupName, notificationid, true);
     }
+
+    /**
+     * Marks a group notification as unread for a user.
+     *
+     * @param tenantid       the tenant ID
+     * @param notificationid the notification ID
+     * @param userid         the user ID
+     * @param groupName      the group name
+     * @return the response entity
+     */
 
     @PutMapping("group/{groupName}/user/{userid}/notification/{notificationid}/unread")
     public ResponseEntity<NotificationReadUnreadResponse> makeUnReadGroupNotifi(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
         @PathVariable Long notificationid,
         @PathVariable Long userid,
         @PathVariable String groupName
@@ -121,9 +196,18 @@ public class NotificationController {
         return notificationReadUnreadService.getReadUnreadUserGroupNotification(tenantid, userid, groupName, notificationid, true);
     }
 
+    /**
+     * Retrieves all notifications for an admin.
+     *
+     * @param tenantid the tenant ID
+     * @param page     the page number
+     * @param limit    the page size
+     * @return the response entity
+     */
+
     @GetMapping("/")
     public ResponseEntity<AdminNotificationListGetResponse> getAll(
-        @RequestHeader(name="Tenant-Id") Long tenantid,
+        @RequestHeader(name = "Tenant-Id") Long tenantid,
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "20") int limit
     ) {

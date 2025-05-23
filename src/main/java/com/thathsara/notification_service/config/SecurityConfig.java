@@ -8,8 +8,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Configuration class for application security settings.
- * 
- * This class defines the security filter chain and HTTP security configurations.
+ *
+ * This class defines the security filter chain and
+ * HTTP security configurations.
  */
 @Configuration
 public final class SecurityConfig {
@@ -22,7 +23,8 @@ public final class SecurityConfig {
      * @throws Exception if an error occurs during configuration
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http)
+            throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
