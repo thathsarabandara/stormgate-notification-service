@@ -19,6 +19,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity representing a user group notification.
+ */
 @Entity
 @Table(name = "user_groups")
 @Data
@@ -27,32 +30,56 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserGroupNotification {
 
+    /**
+     * Unique identifier for the user group notification.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    /**
+     * Tenant identifier to which this notification belongs.
+     */
+    @Column(nullable = false)
     private Long tenantId;
 
-    @Column(nullable=true)
+    /**
+     * User identifier associated with this notification (nullable).
+     */
+    @Column(nullable = true)
     private Long userId;
 
+    /**
+     * Group associated with this notification.
+     */
     @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName="id")
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
     private Group group;
 
-    @Column(nullable=false, columnDefinition="BOOLEAN DEFAULT FALSE")
+    /**
+     * Flag to indicate if the notification has been read.
+     */
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     @Builder.Default
     private Boolean isRead = false;
 
+    /**
+     * Linked notification entity.
+     */
     @OneToOne
-    @JoinColumn(name = "notifictaion_id", referencedColumnName = "id")
+    @JoinColumn(name = "notification_id", referencedColumnName = "id")
     private Notification notification;
 
+    /**
+     * Timestamp when the notification was created.
+     */
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * Timestamp when the notification was last updated.
+     */
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;

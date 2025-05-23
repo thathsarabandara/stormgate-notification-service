@@ -18,6 +18,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity representing a notification that can be sent via various types such as email, SMS, in-app, or push.
+ */
 @Entity
 @Table(name = "notifications")
 @Data
@@ -26,39 +29,65 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Notification {
 
+    /**
+     * Unique identifier for the Notification.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    /**
+     * Tenant ID to which this notification belongs.
+     */
+    @Column(nullable = false)
     private Long tenantid;
 
-    @Column(nullable=false)
+    /**
+     * Title of the notification.
+     */
+    @Column(nullable = false)
     private String title;
 
+    /**
+     * Message body of the notification.
+     */
     @Column(columnDefinition = "TEXT")
     private String message;
 
+    /**
+     * Type of the notification (EMAIL, SMS, IN_APP, PUSH).
+     */
     @Enumerated(EnumType.STRING)
     private NotificationType type;
 
-    @Column(columnDefinition = "BOOLEAN DETAULT FALSE")
+    /**
+     * Flag indicating if the notification has been deleted.
+     */
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     @Builder.Default
     private boolean isDeleted = false;
 
+    /**
+     * Timestamp when the notification was created.
+     */
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * Timestamp when the notification was last updated.
+     */
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /**
+     * Enum representing different notification types.
+     */
     public enum NotificationType {
         EMAIL,
         SMS,
         IN_APP,
         PUSH,
     }
-
 }

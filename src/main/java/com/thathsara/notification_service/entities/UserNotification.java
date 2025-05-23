@@ -18,6 +18,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity representing a user notification.
+ */
 @Entity
 @Table(name = "user_notifications")
 @Data
@@ -26,25 +29,43 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserNotification {
 
+    /**
+     * Unique identifier for the user notification.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Associated notification entity.
+     */
     @ManyToOne
-    @JoinColumn(name = "notification_id", referencedColumnName="id")
+    @JoinColumn(name = "notification_id", referencedColumnName = "id")
     private Notification notification;
 
-    @Column(nullable=false)
+    /**
+     * Identifier of the user who received the notification.
+     */
+    @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable=false)
+    /**
+     * Flag indicating if the notification has been read.
+     */
+    @Column(nullable = false)
     private Boolean isRead;
 
+    /**
+     * Timestamp when the notification was created.
+     */
     @CreationTimestamp
-    @Column(nullable=false, name="created_at")
+    @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
+    /**
+     * Timestamp when the notification was last updated.
+     */
     @UpdateTimestamp
-    @Column(nullable=false, name="created_at")
+    @Column(nullable = false, name = "updated_at")
     private LocalDateTime updatedAt;
 }
