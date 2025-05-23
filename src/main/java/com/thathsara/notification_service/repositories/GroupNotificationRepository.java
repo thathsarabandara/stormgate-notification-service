@@ -22,5 +22,5 @@ public interface  GroupNotificationRepository extends JpaRepository<GroupNotific
         @Param("threeMonthsAgo") LocalDateTime threeMonthsAgo, 
         Pageable pageable);
         
-    Optional<GroupNotification> findbyNotification(Notification notification);
+    Optional<GroupNotification> findByNotification(Notification notification);
 }

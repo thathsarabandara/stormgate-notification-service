@@ -38,12 +38,12 @@ public class Group {
      * ID of the tenant this group belongs to.
      */
     @Column(nullable = false)
-    private Long tenantid;
+    private Long tenantId;
 
     /**
      * Name of the group.
      */
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String name;
 
     /**

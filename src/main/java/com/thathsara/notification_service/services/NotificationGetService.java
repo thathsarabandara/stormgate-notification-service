@@ -112,7 +112,7 @@ public class NotificationGetService {
             for (UserNotification userNotification : userNotificationsPage.getContent()) {
                 final Optional<Notification> notificationOpt 
                     = notificationRepository
-                        .findByIdAndNotDelated(userNotification.getNotification().getId(), false);
+                        .findByIdAndIsDeleted(userNotification.getNotification().getId(), false);
 
                 if (notificationOpt.isPresent()) {
                     final Notification notification = notificationOpt.get();
@@ -192,7 +192,7 @@ public class NotificationGetService {
                         "Group name is required"
                     ));
             }
-            final Group group = groupRepository.findByTenantIdandName(tenantid, groupName.toUpperCase());
+            final Group group = groupRepository.findByTenantIdAndName(tenantid, groupName.toUpperCase());
 
             if (group == null) {
                 return ResponseEntity
@@ -285,7 +285,7 @@ public class NotificationGetService {
             }
 
             final Pageable pageable = PageRequest.of(page, limit);
-            final Page<Notification> notifications = notificationRepository.findByTenantId(tenantId, pageable);
+            final Page<Notification> notifications = notificationRepository.findByTenantid(tenantId, pageable);
 
             final List<AdminNotificationGetResponse> notifiList = new java.util.ArrayList<>();
 
@@ -293,7 +293,7 @@ public class NotificationGetService {
                 final Optional<UserNotification> userNotificationOpt 
                     = userNotificationRepository.findByNotificationAndUserId(notification, tenantId);
                 final Optional<GroupNotification> groupNotificationOpt 
-                    = groupNotificationRepository.findbyNotification(notification);
+                    = groupNotificationRepository.findByNotification(notification);
 
                 final AdminNotificationGetResponse response = new AdminNotificationGetResponse();
                 response.setNotifiId(notification.getId());

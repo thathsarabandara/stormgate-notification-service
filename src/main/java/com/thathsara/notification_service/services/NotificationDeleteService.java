@@ -46,7 +46,7 @@ public class NotificationDeleteService {
                     .body(new NotificationDeleteResponse( null, "Notification ID is required"));
             }
 
-            final Optional<Notification> notification = notificationRepository.findByIdAndNotDelated(tenantId, false);
+            final Optional<Notification> notification = notificationRepository.findByIdAndIsDeleted(tenantId, false);
 
             if (!notification.isPresent()) {
                 return ResponseEntity

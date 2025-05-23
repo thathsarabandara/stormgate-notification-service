@@ -11,6 +11,6 @@ import com.thathsara.notification_service.entities.Notification;
 
 @Repository
 public interface NotificationRepository extends  JpaRepository<Notification, Long> {
-    Optional<Notification> findByIdAndNotDelated(Long id, boolean isDeleted);
-    Page<Notification> findByTenantId(Long tenantId, Pageable pageable);
+    Optional<Notification> findByIdAndIsDeleted(Long id, boolean isDeleted);
+    Page<Notification> findByTenantid(Long tenantid, Pageable pageable);
 }

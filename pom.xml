@@ -166,7 +166,7 @@
 					<effort>Max</effort>
 					<threshold>Low</threshold>
 					<failOnError>true</failOnError>
-					<includeFilterFile>src/main/java/com/thathsara/notification_service/config/spotbugs/spotbugs-security-include.xml</includeFilterFile>
+					<includeFilterFile>src/main/java/com/thathsara/notification_service/config/spotbug/spotbugs-security-include.xml</includeFilterFile>
 					<xmlOutput>true</xmlOutput>
 					<outputDirectory>${project.build.directory}/spotbugs</outputDirectory>
 				</configuration>

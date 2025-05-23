@@ -90,7 +90,7 @@ public class NotificationReadUnreadService {
             }
 
             final Optional<Notification> notificationOpt 
-                    = notificationRepository.findByIdAndNotDelated(notificationId, false);
+                    = notificationRepository.findByIdAndIsDeleted(notificationId, false);
 
             if (!notificationOpt.isPresent()) {
                 return ResponseEntity
@@ -172,7 +172,7 @@ public class NotificationReadUnreadService {
                     .body(new NotificationReadUnreadResponse(null, "Group Name is not Found"));
             }
 
-            final Group group = groupRepoistoy.findByTenantIdandName(tenantId, groupName);
+            final Group group = groupRepoistoy.findByTenantIdAndName(tenantId, groupName);
 
             if (group == null) {
                 return ResponseEntity
@@ -181,7 +181,7 @@ public class NotificationReadUnreadService {
             }
 
             final Optional<Notification> notificationOpt 
-                = notificationRepository.findByIdAndNotDelated(notificationId, false);
+                = notificationRepository.findByIdAndIsDeleted(notificationId, false);
             if (!notificationOpt.isPresent()) {
                 return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

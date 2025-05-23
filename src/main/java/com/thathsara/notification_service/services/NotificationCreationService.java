@@ -115,11 +115,11 @@ public class NotificationCreationService {
 
     public Group findOrCreateGroup(String groupName, Long tenantId) {
         try {
-            final Group group = groupRepository.findByTenantIdandName(tenantId, groupName.toUpperCase());
+            final Group group = groupRepository.findByTenantIdAndName(tenantId, groupName.toUpperCase());
             if (group == null) {
                 final Group newGroup = new Group();
                 newGroup.setName(groupName);
-                newGroup.setTenantid(tenantId);
+                newGroup.setTenantId(tenantId);
                 groupRepository.save(newGroup);
                 return newGroup;
             }
