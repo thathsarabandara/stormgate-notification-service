@@ -1,0 +1,70 @@
+
+# Docker ignore file
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.vscode
+.idea
+*.vscode
+*.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+target
+build
+*.jar
+*.war
+*.ear
+
+# Node and npm (if used)
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Documentation
+README.md
+CONTRIBUTING.md
+LICENSE
+docs
+
+# CI/CD
+.github
+.gitlab-ci.yml
+Jenkinsfile
+.circleci
+
+# Maven
+.mvn/wrapper
+mvnw
+mvnw.cmd
+
+# Test files
+src/test
+**/*Tests.java
+*.log
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Configuration files that shouldn't be in image
+.env
+.env.*
+*.properties
+
+# Dependencies
+pom.xml.releaseBackup
+release.properties
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
