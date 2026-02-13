@@ -14,7 +14,6 @@ import com.thathsara.notification_service.entities.UserPreference;
 import com.thathsara.notification_service.repositories.NotificationTemplateRepository;
 import com.thathsara.notification_service.repositories.UserPreferenceRepository;
 import com.thathsara.notification_service.services.ChannelNotificationService;
-import com.thathsara.notification_service.services.MailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,11 +59,11 @@ public class NotificationEventProcessor {
 
         try {
             // Get user preferences
-            Optional<UserPreference> preferences = preferenceRepository
+            final Optional<UserPreference> preferences = preferenceRepository
                     .findByUserIdAndTenantId(event.getUserId(), event.getTenantId());
 
             // Find enabled templates for this event
-            List<NotificationTemplate> templates = templateRepository
+            final List<NotificationTemplate> templates = templateRepository
                     .findByTenantIdAndEventTypeAndIsEnabledTrue(
                             event.getTenantId(),
                             NotificationTemplate.EventType.valueOf(event.getEventType())
@@ -102,7 +101,7 @@ public class NotificationEventProcessor {
             return true; // Send if no preferences set
         }
 
-        UserPreference pref = preferences.get();
+        final UserPreference pref = preferences.get();
 
         return switch (template.getChannel()) {
             case EMAIL -> pref.getEmailEnabled();
