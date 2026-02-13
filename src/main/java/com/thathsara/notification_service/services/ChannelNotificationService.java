@@ -1,7 +1,6 @@
 package com.thathsara.notification_service.services;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,29 +126,5 @@ public class ChannelNotificationService {
             case PUSH -> "device-token"; // Will be resolved in push service
             case IN_APP -> event.getUserId().toString();
         };
-    }
-
-    /**
-     * Resolve template placeholders with event data.
-     *
-     * @param template The template text with placeholders
-     * @param payload The event payload
-     * @return Resolved template text
-     */
-    public String resolveTemplate(String template, Object payload) {
-        String result = template;
-
-        if (payload instanceof Map) {
-            @SuppressWarnings("unchecked")
-            final Map<String, Object> map = (Map<String, Object>) payload;
-
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                final String placeholder = entry.getKey();
-                final String value = entry.getValue() != null ? entry.getValue().toString() : "";
-                result = result.replace(placeholder, value);
-            }
-        }
-
-        return result;
     }
 }
