@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,6 +35,7 @@ class UserPreferenceControllerIntegrationTests {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
     private UserPreferenceService preferenceService;
 
     @Autowired
@@ -61,6 +64,7 @@ class UserPreferenceControllerIntegrationTests {
 
     @Test
     @DisplayName("Should get user preferences")
+    @WithMockUser
     void testGetPreferences() throws Exception {
         when(preferenceService.getPreferences(userId, tenantId))
                 .thenReturn(preferenceResponse);
@@ -75,6 +79,7 @@ class UserPreferenceControllerIntegrationTests {
 
     @Test
     @DisplayName("Should update user preferences")
+    @WithMockUser
     void testUpdatePreferences() throws Exception {
         UserPreferenceRequest request = UserPreferenceRequest.builder()
                 .emailEnabled(false)
@@ -98,6 +103,7 @@ class UserPreferenceControllerIntegrationTests {
 
     @Test
     @DisplayName("Should check channel enabled status")
+    @WithMockUser
     void testIsChannelEnabled() throws Exception {
         when(preferenceService.isChannelEnabled(userId, tenantId, "EMAIL"))
                 .thenReturn(true);
