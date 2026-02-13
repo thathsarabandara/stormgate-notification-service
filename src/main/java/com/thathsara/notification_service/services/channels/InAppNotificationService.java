@@ -9,7 +9,7 @@ import com.thathsara.notification_service.dtos.NotificationEventDTO;
 import com.thathsara.notification_service.entities.NotificationLog;
 import com.thathsara.notification_service.entities.NotificationTemplate;
 import com.thathsara.notification_service.repositories.NotificationLogRepository;
-import com.thathsara.notification_service.services.ChannelNotificationService;
+import com.thathsara.notification_service.services.TemplateResolutionService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,10 +28,10 @@ public class InAppNotificationService {
     private NotificationLogRepository notificationLogRepository;
 
     /**
-     * Channel notification service for template resolution.
+     * Template resolution service for placeholder resolution.
      */
     @Autowired
-    private ChannelNotificationService channelService;
+    private TemplateResolutionService templateResolutionService;
 
     /**
      * Save in-app notification.
@@ -42,8 +42,10 @@ public class InAppNotificationService {
     public void sendInAppNotification(NotificationEventDTO event, NotificationTemplate template) {
         try {
             // Resolve template
-            final String resolvedSubject = channelService.resolveTemplate(template.getSubject(), event.getPayload());
-            final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
+            final String resolvedSubject = templateResolutionService
+                    .resolveTemplate(template.getSubject(), event.getPayload());
+            final String resolvedBody = templateResolutionService
+                    .resolveTemplate(template.getBody(), event.getPayload());
 
             // Create in-app notification log (stored in DB)
             final NotificationLog notificationLog = NotificationLog.builder()
