@@ -56,12 +56,12 @@ public class EmailNotificationService {
             }
 
             // Resolve template placeholders
-            String resolvedSubject = channelService.resolveTemplate(template.getSubject(), event.getPayload());
-            String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
+            final String resolvedSubject = channelService.resolveTemplate(template.getSubject(), event.getPayload());
+            final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
 
             // Send email
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            final MimeMessage message = mailSender.createMimeMessage();
+            final MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setTo(event.getUserEmail());
             helper.setSubject(resolvedSubject);
