@@ -59,8 +59,8 @@ public class PushNotificationService {
             // String deviceToken = userDeviceTokenRepository.findBy(event.getUserId());
 
             // Resolve template
-            String resolvedSubject = channelService.resolveTemplate(template.getSubject(), event.getPayload());
-            String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
+            final String resolvedSubject = channelService.resolveTemplate(template.getSubject(), event.getPayload());
+            final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
 
             // Build Firebase message
             Message message = Message.builder()
