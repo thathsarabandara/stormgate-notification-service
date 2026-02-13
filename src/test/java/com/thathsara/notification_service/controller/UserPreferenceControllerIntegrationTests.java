@@ -2,8 +2,6 @@ package com.thathsara.notification_service.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.UUID;
 
@@ -14,11 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,12 +31,15 @@ import com.thathsara.notification_service.services.UserPreferenceService;
 @DisplayName("UserPreferenceController Integration Tests")
 class UserPreferenceControllerIntegrationTests {
 
+    @SuppressWarnings("unused")
     @Autowired
     private MockMvc mockMvc;
 
+    @SuppressWarnings("removal")
     @MockBean
     private UserPreferenceService preferenceService;
 
+    @SuppressWarnings("unused")
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -52,6 +50,7 @@ class UserPreferenceControllerIntegrationTests {
     /**
      * Create a mock authentication with UUID values.
      */
+    @SuppressWarnings("unused")
     private Authentication createMockAuthentication(UUID userId, UUID tenantId) {
         return new Authentication() {
             @Override
