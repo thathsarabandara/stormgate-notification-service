@@ -11,11 +11,10 @@ import com.thathsara.notification_service.dtos.NotificationEventDTO;
 import com.thathsara.notification_service.entities.NotificationLog;
 import com.thathsara.notification_service.entities.NotificationTemplate;
 import com.thathsara.notification_service.repositories.NotificationLogRepository;
-import com.thathsara.notification_service.services.ChannelNotificationService;
+import com.thathsara.notification_service.services.TemplateResolutionService;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 
 /**
  * Service for sending email notifications.
@@ -37,11 +36,10 @@ public class EmailNotificationService {
     private NotificationLogRepository notificationLogRepository;
 
     /**
-     * Channel notification service for template resolution.
+     * Template resolution service for placeholder resolution.
      */
-    @Lazy
     @Autowired
-    private ChannelNotificationService channelService;
+    private TemplateResolutionService templateResolutionService;
 
     /**
      * Send email notification.
@@ -58,8 +56,10 @@ public class EmailNotificationService {
             }
 
             // Resolve template placeholders
-            final String resolvedSubject = channelService.resolveTemplate(template.getSubject(), event.getPayload());
-            final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
+            final String resolvedSubject = templateResolutionService
+                    .resolveTemplate(template.getSubject(), event.getPayload());
+            final String resolvedBody = templateResolutionService
+                    .resolveTemplate(template.getBody(), event.getPayload());
 
             // Send email
             final MimeMessage message = mailSender.createMimeMessage();
