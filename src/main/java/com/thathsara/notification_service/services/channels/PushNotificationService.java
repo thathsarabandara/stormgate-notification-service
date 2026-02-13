@@ -55,9 +55,6 @@ public class PushNotificationService {
                 return;
             }
 
-            // TODO: Fetch device token from database
-            // String deviceToken = userDeviceTokenRepository.findBy(event.getUserId());
-
             // Resolve template
             final String resolvedSubject = channelService.resolveTemplate(template.getSubject(), event.getPayload());
             final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
