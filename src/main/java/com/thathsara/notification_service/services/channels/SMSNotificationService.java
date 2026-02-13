@@ -9,7 +9,7 @@ import com.thathsara.notification_service.dtos.NotificationEventDTO;
 import com.thathsara.notification_service.entities.NotificationLog;
 import com.thathsara.notification_service.entities.NotificationTemplate;
 import com.thathsara.notification_service.repositories.NotificationLogRepository;
-import com.thathsara.notification_service.services.ChannelNotificationService;
+import com.thathsara.notification_service.services.TemplateResolutionService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,10 +28,10 @@ public class SMSNotificationService {
     private NotificationLogRepository notificationLogRepository;
 
     /**
-     * Channel notification service for template resolution.
+     * Template resolution service for placeholder resolution.
      */
     @Autowired
-    private ChannelNotificationService channelService;
+    private TemplateResolutionService templateResolutionService;
 
     /**
      * Send SMS notification.
@@ -47,7 +47,8 @@ public class SMSNotificationService {
                 return;
             }
 
-            final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
+            final String resolvedBody = templateResolutionService
+                    .resolveTemplate(template.getBody(), event.getPayload());
 
             log.info("SMS sent successfully to: {} for event: {}", event.getUserPhone(), event.getEventType());
 
