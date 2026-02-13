@@ -74,7 +74,7 @@ public class SMSNotificationService {
      */
     private void createSuccessLog(NotificationEventDTO event, NotificationTemplate template,
                                    String recipient, String content) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
@@ -100,7 +100,7 @@ public class SMSNotificationService {
      * @param errorMessage The error message
      */
     private void createFailedLog(NotificationEventDTO event, NotificationTemplate template, String errorMessage) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
