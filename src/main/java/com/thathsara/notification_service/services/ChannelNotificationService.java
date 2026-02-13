@@ -94,7 +94,7 @@ public class ChannelNotificationService {
      * @param exception The exception that occurred
      */
     private void createFailedLog(NotificationEventDTO event, NotificationTemplate template, Exception exception) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
@@ -141,11 +141,11 @@ public class ChannelNotificationService {
 
         if (payload instanceof Map) {
             @SuppressWarnings("unchecked")
-            Map<String, Object> map = (Map<String, Object>) payload;
+            final Map<String, Object> map = (Map<String, Object>) payload;
 
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                String placeholder = "{{" + entry.getKey() + "}}";
-                String value = entry.getValue() != null ? entry.getValue().toString() : "";
+                final String placeholder = entry.getKey();
+                final String value = entry.getValue() != null ? entry.getValue().toString() : "";
                 result = result.replace(placeholder, value);
             }
         }
