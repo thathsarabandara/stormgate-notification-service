@@ -63,7 +63,7 @@ public class PushNotificationService {
             final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
 
             // Build Firebase message
-            Message message = Message.builder()
+            final Message message = Message.builder()
                     .setNotification(Notification.builder()
                             .setTitle(resolvedSubject)
                             .setBody(resolvedBody)
@@ -72,7 +72,7 @@ public class PushNotificationService {
                     .build();
 
             // Send message
-            String response = firebaseMessaging.send(message);
+            final String response = firebaseMessaging.send(message);
             log.info("Push notification sent successfully. Message ID: {}", response);
 
             // Log successful delivery
@@ -95,7 +95,7 @@ public class PushNotificationService {
      */
     private void createSuccessLog(NotificationEventDTO event, NotificationTemplate template,
                                    String deviceToken, String subject, String content) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
@@ -122,7 +122,7 @@ public class PushNotificationService {
      * @param errorMessage The error message
      */
     private void createFailedLog(NotificationEventDTO event, NotificationTemplate template, String errorMessage) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
@@ -147,7 +147,7 @@ public class PushNotificationService {
      * @param reason The reason for skipping
      */
     private void createSkippedLog(NotificationEventDTO event, NotificationTemplate template, String reason) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
