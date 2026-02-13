@@ -35,7 +35,7 @@ public class UserPreferenceService {
      * @return User preference response
      */
     public UserPreferenceResponse getPreferences(UUID userId, UUID tenantId) {
-        Optional<UserPreference> preference = preferenceRepository.findByUserIdAndTenantId(userId, tenantId);
+        final Optional<UserPreference> preference = preferenceRepository.findByUserIdAndTenantId(userId, tenantId);
 
         return preference.map(this::mapToResponse).orElseGet(() ->
                 createDefaultPreferences(userId, tenantId)
@@ -54,9 +54,9 @@ public class UserPreferenceService {
     public UserPreferenceResponse updatePreferences(UUID userId, UUID tenantId, UserPreferenceRequest request) {
         log.info("Updating preferences for user: {} in tenant: {}", userId, tenantId);
 
-        Optional<UserPreference> existing = preferenceRepository.findByUserIdAndTenantId(userId, tenantId);
+        final Optional<UserPreference> existing = preferenceRepository.findByUserIdAndTenantId(userId, tenantId);
 
-        UserPreference preference;
+        final UserPreference preference;
         if (existing.isPresent()) {
             preference = existing.get();
             preference.setEmailEnabled(request.getEmailEnabled());
@@ -76,7 +76,7 @@ public class UserPreferenceService {
                     .build();
         }
 
-        UserPreference saved = preferenceRepository.save(preference);
+        final UserPreference saved = preferenceRepository.save(preference);
         log.info("Preferences updated successfully for user: {}", userId);
 
         return mapToResponse(saved);
@@ -91,13 +91,13 @@ public class UserPreferenceService {
      * @return true if channel is enabled
      */
     public boolean isChannelEnabled(UUID userId, UUID tenantId, String channel) {
-        Optional<UserPreference> preference = preferenceRepository.findByUserIdAndTenantId(userId, tenantId);
+        final Optional<UserPreference> preference = preferenceRepository.findByUserIdAndTenantId(userId, tenantId);
 
         if (preference.isEmpty()) {
             return true; // Default to enabled if no preferences set
         }
 
-        UserPreference pref = preference.get();
+        final UserPreference pref = preference.get();
         return switch (channel.toUpperCase()) {
             case "EMAIL" -> pref.getEmailEnabled();
             case "SMS" -> pref.getSmsEnabled();
@@ -118,7 +118,7 @@ public class UserPreferenceService {
     private UserPreferenceResponse createDefaultPreferences(UUID userId, UUID tenantId) {
         log.info("Creating default preferences for user: {} in tenant: {}", userId, tenantId);
 
-        UserPreference preference = UserPreference.builder()
+        final UserPreference preference = UserPreference.builder()
                 .userId(userId)
                 .tenantId(tenantId)
                 .emailEnabled(true)
@@ -128,7 +128,7 @@ public class UserPreferenceService {
                 .frequency("IMMEDIATE")
                 .build();
 
-        UserPreference saved = preferenceRepository.save(preference);
+        final UserPreference saved = preferenceRepository.save(preference);
         return mapToResponse(saved);
     }
 
