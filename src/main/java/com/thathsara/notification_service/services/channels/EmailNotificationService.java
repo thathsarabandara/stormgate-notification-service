@@ -92,7 +92,7 @@ public class EmailNotificationService {
      */
     private void createSuccessLog(NotificationEventDTO event, NotificationTemplate template,
                                    String recipient, String subject, String content) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
@@ -119,7 +119,7 @@ public class EmailNotificationService {
      * @param errorMessage The error message
      */
     private void createFailedLog(NotificationEventDTO event, NotificationTemplate template, String errorMessage) {
-        NotificationLog log = NotificationLog.builder()
+        final NotificationLog log = NotificationLog.builder()
                 .tenantId(event.getTenantId())
                 .userId(event.getUserId())
                 .eventType(NotificationTemplate.EventType.valueOf(event.getEventType()))
