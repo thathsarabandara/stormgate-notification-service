@@ -43,14 +43,14 @@ public class NotificationTemplateService {
         log.info("Creating/updating template for tenant: {} event: {} channel: {}",
                 tenantId, request.getEventType(), request.getChannel());
 
-        Optional<NotificationTemplate> existing = templateRepository
+        final Optional<NotificationTemplate> existing = templateRepository
                 .findByTenantIdAndEventTypeAndChannel(
                         tenantId,
                         EventType.valueOf(request.getEventType()),
                         NotificationChannel.valueOf(request.getChannel())
                 );
 
-        NotificationTemplate template;
+        final NotificationTemplate template;
         if (existing.isPresent()) {
             template = existing.get();
             template.setSubject(request.getSubject());
@@ -67,7 +67,7 @@ public class NotificationTemplateService {
                     .build();
         }
 
-        NotificationTemplate saved = templateRepository.save(template);
+        final NotificationTemplate saved = templateRepository.save(template);
         log.info("Template created/updated successfully with ID: {}", saved.getId());
 
         return mapToResponse(saved);
@@ -81,7 +81,7 @@ public class NotificationTemplateService {
      * @return The template response
      */
     public TemplateResponse getTemplate(UUID tenantId, UUID templateId) {
-        Optional<NotificationTemplate> template = templateRepository.findById(templateId);
+        final Optional<NotificationTemplate> template = templateRepository.findById(templateId);
 
         if (template.isEmpty() || !template.get().getTenantId().equals(tenantId)) {
             log.warn("Template not found or access denied for tenant: {} template: {}", tenantId, templateId);
@@ -98,7 +98,7 @@ public class NotificationTemplateService {
      * @return List of template responses
      */
     public List<TemplateResponse> getTemplatesByTenant(UUID tenantId) {
-        List<NotificationTemplate> templates = templateRepository.findByTenantId(tenantId);
+        final List<NotificationTemplate> templates = templateRepository.findByTenantId(tenantId);
         return templates.stream().map(this::mapToResponse).toList();
     }
 
@@ -111,7 +111,7 @@ public class NotificationTemplateService {
      */
     public List<TemplateResponse> getEnabledTemplates(UUID tenantId, String eventType) {
         try {
-            List<NotificationTemplate> templates = templateRepository
+            final List<NotificationTemplate> templates = templateRepository
                     .findByTenantIdAndEventTypeAndIsEnabledTrue(tenantId, EventType.valueOf(eventType));
             return templates.stream().map(this::mapToResponse).toList();
         } catch (IllegalArgumentException e) {
@@ -129,7 +129,7 @@ public class NotificationTemplateService {
      */
     @Transactional
     public boolean deleteTemplate(UUID tenantId, UUID templateId) {
-        Optional<NotificationTemplate> template = templateRepository.findById(templateId);
+        final Optional<NotificationTemplate> template = templateRepository.findById(templateId);
 
         if (template.isEmpty() || !template.get().getTenantId().equals(tenantId)) {
             log.warn("Template not found or access denied for deletion: {}", templateId);
