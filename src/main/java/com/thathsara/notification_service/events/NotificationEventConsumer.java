@@ -5,7 +5,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import com.thathsara.notification_service.dtos.NotificationEventDTO;
-import com.thathsara.notification_service.events.NotificationEventProcessor;
 
 import lombok.extern.slf4j.Slf4j;
 
