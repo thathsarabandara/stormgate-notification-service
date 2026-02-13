@@ -15,6 +15,7 @@ import com.thathsara.notification_service.services.ChannelNotificationService;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * Service for sending email notifications.
@@ -38,6 +39,7 @@ public class EmailNotificationService {
     /**
      * Channel notification service for template resolution.
      */
+    @Lazy
     @Autowired
     private ChannelNotificationService channelService;
 
