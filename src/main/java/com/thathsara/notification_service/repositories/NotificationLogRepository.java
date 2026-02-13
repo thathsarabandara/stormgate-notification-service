@@ -47,6 +47,7 @@ public interface NotificationLogRepository extends JpaRepository<NotificationLog
      *
      * @param channel The notification channel
      * @param tenantId The tenant ID
+     * @param status The delivery status
      * @return Count of sent notifications
      */
     Long countByChannelAndTenantIdAndStatus(
