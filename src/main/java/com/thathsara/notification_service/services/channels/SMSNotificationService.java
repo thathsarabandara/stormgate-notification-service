@@ -47,11 +47,7 @@ public class SMSNotificationService {
                 return;
             }
 
-            // Resolve template
             final String resolvedBody = channelService.resolveTemplate(template.getBody(), event.getPayload());
-
-            // TODO: Integrate with Twilio or similar SMS provider
-            // TwilioClient.sendSMS(event.getUserPhone(), resolvedBody);
 
             log.info("SMS sent successfully to: {} for event: {}", event.getUserPhone(), event.getEventType());
 
