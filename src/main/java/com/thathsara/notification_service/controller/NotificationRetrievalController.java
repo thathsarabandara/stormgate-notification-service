@@ -56,8 +56,8 @@ public class NotificationRetrievalController {
         log.info("Fetching notifications for user: {}", authentication.getName());
 
         // Extract tenant and user from token (implementation depends on your security setup)
-        UUID userId = UUID.fromString(authentication.getName());
-        UUID tenantId = (UUID) authentication.getCredentials(); // Example
+        final UUID userId = UUID.fromString(authentication.getName());
+        final UUID tenantId = (UUID) authentication.getCredentials(); // Example
 
         try {
             final List<NotificationLog> logs;
@@ -72,7 +72,7 @@ public class NotificationRetrievalController {
             }
 
             // Convert to response DTOs
-            List<NotificationListResponse> responses = logs.stream()
+            final List<NotificationListResponse> responses = logs.stream()
                     .map(this::mapToResponse)
                     .toList();
 
