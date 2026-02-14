@@ -191,7 +191,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
@@ -205,7 +205,6 @@ jobs:
             ${{ steps.meta.outputs.tags }}
             ${{ steps.meta.outputs.labels }}
 
-  # Job 6: Create Release (on main branch only)
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
