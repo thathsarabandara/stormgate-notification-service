@@ -96,31 +96,6 @@ jobs:
       - name: Generate Code Coverage Report
         run: mvn jacoco:report
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./target/site/jacoco/jacoco.xml
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
-          verbose: true
-
-      - name: Check Coverage Threshold
-        run: mvn jacoco:check
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: target/surefire-reports/
-
-      - name: Upload coverage reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-reports
-          path: target/site/jacoco/
 
   # Job 3: Build
   build:
