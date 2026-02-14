@@ -32,11 +32,11 @@ docs
 .gitlab-ci.yml
 Jenkinsfile
 .circleci
-\
+
 
 # Test files
 src/test
-**/*Tests.java
+*Tests.java
 *.log
 
 # Docker files
